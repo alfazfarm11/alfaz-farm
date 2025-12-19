@@ -1,110 +1,112 @@
 /**
  * ALFAZ FARM - Core Logic Script
- * Fungsi: Mengelola multi-bahasa, render data dari JSON, 
- * dan interaktivitas galeri.
  */
 
-let currentLang = 'id'; // Bahasa default
+const state = {
+    currentLang: localStorage.getItem('alfazLang') || 'id',
+    currentTheme: localStorage.getItem('alfazTheme') || 'light'
+};
 
-// Fungsi Utama untuk memuat konten dari data.json
+// --- 1. Init Theme ---
+function initTheme() {
+    document.body.className = state.currentTheme + '-theme';
+    const themeBtn = document.getElementById('themeBtn');
+    if (themeBtn) {
+        themeBtn.innerHTML = state.currentTheme === 'light' 
+            ? '<i class="fas fa-moon"></i>' 
+            : '<i class="fas fa-sun"></i>';
+    }
+}
+
+// --- 2. Load Content ---
 async function loadContent() {
     try {
-        // Mengambil data dari file JSON
         const response = await fetch('data.json');
-        if (!response.ok) throw new Error("Gagal memuat file data.json");
+        if (!response.ok) throw new Error("Data.json not found");
         
         const data = await response.json();
-        const content = data[currentLang]; // Mengambil objek bahasa yang dipilih
+        const content = data[state.currentLang];
 
-        // 1. Render Navigasi (Jika ID sesuai dengan urutan di JSON)
+        // Update Nav
         const navLinks = document.querySelectorAll('.nav-links a');
-        if (content.nav && navLinks.length > 0) {
-            content.nav.forEach((text, index) => {
-                if (navLinks[index]) navLinks[index].innerText = text;
-            });
-        }
+        content.nav.forEach((text, i) => { if(navLinks[i]) navLinks[i].innerText = text; });
 
-        // 2. Render Hero & Profile Section
+        // Update Hero
         document.getElementById('hero-tagline').innerText = content.profile.tagline;
         document.getElementById('hero-desc').innerText = content.profile.description;
-        
-        const aboutTextElement = document.getElementById('about-text');
-        if (aboutTextElement) {
-            aboutTextElement.innerText = content.profile.description;
-        }
+        document.getElementById('about-text').innerText = content.profile.description;
 
-        // 3. Render Statistik (Total Lahan, Mitra, Kapasitas)
-        const statsGrid = document.getElementById('stats-grid');
-        statsGrid.innerHTML = ''; // Reset konten sebelumnya
-        content.stats.forEach(stat => {
-            statsGrid.innerHTML += `
-                <div class="stat-item">
-                    <h3>${stat.value}</h3>
-                    <p>${stat.label}</p>
-                </div>`;
-        });
+        // Update Stats
+        renderStats(content.stats);
 
-        // 4. Render Komoditas Utama (Jagung, Ubi, Rimpang)
-        const commodityGrid = document.getElementById('commodity-grid');
-        commodityGrid.innerHTML = ''; // Reset konten sebelumnya
-        content.commodities.forEach(item => {
-            commodityGrid.innerHTML += `
-                <div class="card">
-                    <img src="${item.image}" alt="${item.name}" loading="lazy">
-                    <div class="card-content">
-                        <h3>${item.name}</h3>
-                        <p>${item.desc}</p>
-                    </div>
-                </div>`;
-        });
+        // Update Commodities
+        renderCommodities(content.commodities);
 
-        // 5. Render Galeri Foto Lahan
-        const galleryTitle = document.getElementById('gallery-h2');
-        if (galleryTitle) galleryTitle.innerText = content.gallery_title;
-
-        const galleryGrid = document.getElementById('gallery-grid');
-        if (galleryGrid && data.images) {
-            galleryGrid.innerHTML = ''; // Reset konten sebelumnya
-            data.images.forEach(imgUrl => {
-                galleryGrid.innerHTML += `
-                    <div class="gallery-item">
-                        <img src="${imgUrl}" alt="Alfaz Farm Gallery" loading="lazy">
-                    </div>`;
-            });
+        // Update Gallery
+        if (document.getElementById('gallery-h2')) {
+            document.getElementById('gallery-h2').innerText = content.gallery_title;
+            renderGallery(data.images);
         }
 
     } catch (error) {
-        console.error('Alfaz Farm Script Error:', error);
+        console.error('Fetch Error:', error);
     }
 }
 
-// Fungsi untuk mengganti bahasa
+// --- 3. Render Helpers ---
+function renderStats(stats) {
+    const container = document.getElementById('stats-grid');
+    container.innerHTML = stats.map(s => `
+        <div class="stat-item">
+            <h3>${s.value}</h3>
+            <p>${s.label}</p>
+        </div>
+    `).join('');
+}
+
+function renderCommodities(items) {
+    const container = document.getElementById('commodity-grid');
+    container.innerHTML = items.map(item => `
+        <div class="card">
+            <img src="${item.image}" alt="${item.name}" loading="lazy">
+            <div class="card-content">
+                <h3>${item.name}</h3>
+                <p>${item.desc}</p>
+            </div>
+        </div>
+    `).join('');
+}
+
+function renderGallery(images) {
+    const container = document.getElementById('gallery-grid');
+    if (!container || !images) return;
+    container.innerHTML = images.map(src => `
+        <div class="gallery-item">
+            <img src="${src}" alt="Farm Gallery" loading="lazy">
+        </div>
+    `).join('');
+}
+
+// --- 4. Controls ---
 function toggleLang() {
-    // Tukar bahasa
-    currentLang = (currentLang === 'id') ? 'en' : 'id';
-    
-    // Update teks tombol
-    const langBtn = document.getElementById('langBtn');
-    if (langBtn) {
-        langBtn.innerText = (currentLang === 'id') ? 'EN' : 'ID';
-    }
-
-    // Muat ulang konten dengan bahasa baru
+    state.currentLang = state.currentLang === 'id' ? 'en' : 'id';
+    localStorage.setItem('alfazLang', state.currentLang);
+    document.getElementById('langText').innerText = state.currentLang.toUpperCase();
     loadContent();
-    
-    // Opsional: Simpan pilihan bahasa ke localStorage agar saat refresh tidak kembali ke awal
-    localStorage.setItem('alfazLang', currentLang);
 }
 
-// Jalankan fungsi saat halaman pertama kali dimuat
+function toggleTheme() {
+    state.currentTheme = state.currentTheme === 'light' ? 'dark' : 'light';
+    localStorage.setItem('alfazTheme', state.currentTheme);
+    initTheme();
+}
+
+// --- 5. Event Listeners ---
 document.addEventListener('DOMContentLoaded', () => {
-    // Cek jika ada preferensi bahasa tersimpan
-    const savedLang = localStorage.getItem('alfazLang');
-    if (savedLang) {
-        currentLang = savedLang;
-        const langBtn = document.getElementById('langBtn');
-        if (langBtn) langBtn.innerText = (currentLang === 'id') ? 'EN' : 'ID';
-    }
-    
+    initTheme();
     loadContent();
+    
+    // Set initial lang text
+    const langBtnText = document.getElementById('langText');
+    if (langBtnText) langBtnText.innerText = state.currentLang.toUpperCase();
 });
