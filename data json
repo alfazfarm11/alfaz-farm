@@ -1,0 +1,29 @@
+{
+  "profile": {
+    "name": "Alfaz Farm",
+    "tagline": "Integrated Agriculture Hub & Industrial Supplier",
+    "description": "Alfaz Farm hadir sebagai jembatan antara potensi lahan lokal dengan standar kebutuhan industri. Kami mengintegrasikan puluhan hektar lahan petani di bawah satu manajemen mutu yang ketat, memastikan setiap produk yang keluar dari gerbang kami memiliki standar kualitas yang konsisten, kapasitas yang berkelanjutan, dan transparansi rantai pasok."
+  },
+  "stats": [
+    {"label": "Total Lahan Terkelola", "value": "50+ Hektar"},
+    {"label": "Mitra Petani", "value": "30+ Orang"},
+    {"label": "Kapasitas Suplai", "value": "500 Ton / Tahun"}
+  ],
+  "commodities": [
+    {
+      "name": "Jagung Pipil Kering",
+      "desc": "Kadar air <14% dengan proses pengeringan terstandarisasi untuk kebutuhan pabrik pakan.",
+      "image": "https://images.unsplash.com/photo-1551730459-92db2a308d6a?auto=format&fit=crop&w=400&q=80"
+    },
+    {
+      "name": "Ubi Jalar & Singkong",
+      "desc": "Varietas unggul dengan grading ukuran konsisten untuk industri makanan ringan.",
+      "image": "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=400&q=80"
+    },
+    {
+      "name": "Rimpang & Rempah",
+      "desc": "Jahe gajah, kunyit, dan temulawak segar dengan kandungan kurkumin terjaga.",
+      "image": "https://images.unsplash.com/photo-1596515152865-c3093229a87d?auto=format&fit=crop&w=400&q=80"
+    }
+  ]
+}
