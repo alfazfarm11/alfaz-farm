@@ -1,0 +1,47 @@
+:root {
+    --primary: #0a3d2e; /* Hijau Botol (Kesan Mewah & Stabil) */
+    --accent: #c4a47c;  /* Gold/Earth Tone */
+    --bg-light: #f9fbf9;
+    --text: #2d3436;
+}
+
+* { margin:0; padding:0; box-sizing: border-box; }
+
+body { font-family: 'Inter', sans-serif; color: var(--text); background: white; line-height: 1.7; }
+
+nav { display: flex; justify-content: space-between; padding: 25px 8%; position: absolute; width: 100%; z-index: 10; color: white; }
+.logo { font-weight: 700; font-size: 1.5rem; letter-spacing: 2px; }
+.logo span { color: var(--accent); }
+.nav-links { display: flex; list-style: none; gap: 30px; }
+.nav-links a { color: white; text-decoration: none; font-weight: 600; font-size: 0.9rem; }
+
+.hero { 
+    height: 100vh; 
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?auto=format&fit=crop&w=1600&q=80');
+    background-size: cover;
+    display: flex; 
+    align-items: center; 
+    padding: 0 8%;
+    color: white;
+}
+
+.hero-content { max-width: 900px; }
+h1 { font-family: 'Playfair Display', serif; font-size: 3.5rem; line-height: 1.2; margin-bottom: 20px; }
+
+.stats-container { display: flex; gap: 50px; margin-top: 40px; border-top: 1px solid rgba(255,255,255,0.3); padding-top: 30px; }
+.stat-item h3 { font-size: 2rem; color: var(--accent); }
+
+section { padding: 100px 8%; }
+.bg-light { background: var(--bg-light); }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+.card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+.card img { width: 100%; height: 200px; object-fit: cover; }
+.card-content { padding: 25px; }
+
+.form-box { background: var(--primary); color: white; padding: 50px; border-radius: 20px; max-width: 800px; margin: 0 auto; }
+input, textarea { width: 100%; padding: 15px; margin-bottom: 15px; border-radius: 8px; border: none; }
+.btn-main { background: var(--accent); color: white; border: none; padding: 15px 40px; font-weight: bold; cursor: pointer; width: 100%; border-radius: 8px; transition: 0.3s; }
+.btn-main:hover { background: #b08d65; }
+
+footer { text-align: center; padding: 40px; font-size: 0.8rem; color: #999; }
