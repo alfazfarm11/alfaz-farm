@@ -257,41 +257,60 @@ input, textarea {
     font-weight: bold;
 }
 
-/* --- 9. Responsive Mobile --- */
+/* --- 9. Responsive Mobile (Optimized) --- */
 @media (max-width: 768px) {
+    /* Menghapus padding-top pada body karena kita menggunakan sticky nav */
     body {
-        padding-top: 60px; /* Padding lebih kecil di mobile */
+        padding-top: 0; 
     }
 
     nav {
-        /* JANGAN ubah position: fixed di sini */
-        padding: 10px 5%;
-        flex-direction: row; /* Tetap horizontal agar rapi */
+        /* Navigasi dibuat lebih tinggi agar tidak terlihat 'sesak' */
+        padding: 18px 5%; 
+        flex-direction: row; 
+        justify-content: space-between;
+        background: var(--primary); /* Memastikan warna solid saat scroll */
+        position: sticky;
+        top: 0;
+    }
+
+    .logo {
+        font-size: 1.3rem; /* Logo lebih menonjol */
     }
 
     .nav-links {
         margin-top: 0;
-        gap: 10px;
+        gap: 15px; /* Jarak antar menu lebih luas agar mudah diklik jari */
     }
 
     .nav-links a {
-        font-size: 0.7rem; /* Perkecil teks agar muat satu baris */
+        font-size: 0.85rem; /* Ukuran teks ideal untuk keterbacaan mobile */
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
     }
 
-    .logo {
-        font-size: 1.1rem;
+    h1 { 
+        font-size: 2.2rem; 
+        line-height: 1.2;
+        margin-top: 20px;
     }
-
-    h1 { font-size: 2.2rem; }
 
     .hero {
         height: auto;
-        padding: 80px 5%;
+        min-height: 90vh; /* Memastikan hero tetap megah di HP */
+        padding: 60px 5% 40px 5%;
         text-align: center;
     }
 
     .stats-container {
         flex-direction: column;
-        gap: 20px;
+        gap: 25px;
+        margin-top: 30px;
+        padding-top: 20px;
+    }
+
+    .stat-item h3 {
+        font-size: 2.2rem;
     }
 }
