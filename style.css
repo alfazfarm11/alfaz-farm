@@ -31,6 +31,8 @@
 
 html {
     scroll-behavior: smooth;
+    width: 100%;
+    overflow-x: hidden; /* Tambahan: Mencegah error geser kanan-kiri di Chrome */
 }
 
 body {
@@ -39,6 +41,12 @@ body {
     background-color: var(--bg);
     line-height: 1.7;
     transition: background-color var(--transition), color var(--transition);
+    
+    /* Tambahan untuk stabilitas antar browser */
+    width: 100%;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased; /* Membuat teks di Chrome sehalus di Firefox */
+    -moz-osx-font-smoothing: grayscale;
 }
 
 /* --- 3. Navigation (Sticky Version) --- */
@@ -87,46 +95,54 @@ body {
     padding-top: 70px; 
 }
 
-/* --- 4. Hero Section --- */
+/* --- 4. Hero Section (Optimized) --- */
 .hero {
     height: 100vh;
     background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
                 url('https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?auto=format&fit=crop&w=1600&q=80');
     background-size: cover;
     background-position: center;
+    
     display: flex;
-    align-items: center;
-    justify-content: center; /* Membuat konten berada di tengah secara horizontal */
+    flex-direction: column; /* TAMBAHKAN INI: Memastikan elemen tersusun ke bawah */
+    align-items: center;    /* Pusatkan secara horizontal */
+    justify-content: center; /* Pusatkan secara vertikal */
+    
     padding: 0 8%;
     color: var(--white);
-    text-align: center; /* Membuat semua teks di dalamnya menjadi rata tengah */
+    text-align: center;
 }
 
 .hero-content { 
-    max-width: 850px; /* Membatasi lebar teks agar tidak melar ke samping */
+    max-width: 850px; 
     margin: 0 auto;
+    width: 100%; /* Pastikan mengambil ruang yang tersedia */
 }
 
 h1 {
     font-family: 'Playfair Display', serif;
-    font-size: 4rem; /* Sedikit lebih besar untuk desktop */
+    font-size: 4rem; 
     line-height: 1.1;
     margin-bottom: 25px;
 }
 
+/* Memastikan elemen p tidak terlalu lebar di layar ultra-wide */
 .hero-content p {
     font-size: 1.1rem;
-    margin-bottom: 40px;
+    max-width: 700px; 
+    margin: 0 auto 40px auto; /* Margin auto kiri-kanan untuk centering */
     opacity: 0.9;
 }
 
 .stats-container {
     display: flex;
-    justify-content: center; /* Memastikan statistik juga di tengah */
+    flex-wrap: wrap; /* TAMBAHKAN INI: Agar statistik tidak terpotong di layar tanggung */
+    justify-content: center; 
     gap: 60px;
     margin-top: 50px;
     border-top: 1px solid rgba(255,255,255,0.2);
     padding-top: 30px;
+    width: 100%;
 }
 
 /* --- 5. Sections & Grids --- */
@@ -329,4 +345,24 @@ input, textarea {
     .stat-item h3 {
         font-size: 2.2rem;
     }
+}
+
+/* --- 10. Footer --- */
+footer {
+    text-align: center;
+    padding: 60px 8%;
+    background-color: var(--bg); /* Mengikuti tema light/dark */
+    border-top: 1px solid rgba(0,0,0,0.05); /* Garis halus di atas footer */
+    color: var(--text-main);
+    font-size: 0.9rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Jika ada teks copyright di dalamnya */
+footer p {
+    margin: 0;
+    opacity: 0.7;
 }
