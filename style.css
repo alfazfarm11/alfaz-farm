@@ -123,7 +123,7 @@ h1 {
 section { 
     /* Jarak cadangan di atas agar judul section tidak tertutup nav saat diklik */
     scroll-margin-top: 100px; 
-    padding: 80px 8%; 
+    padding: 100px 10%; 
 }
 .bg-light { background-color: var(--bg-sec); }
 
