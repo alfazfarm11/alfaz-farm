@@ -22,12 +22,13 @@
     --card-bg: #1e1e1e;
 }
 
-/* --- 2. Base Reset --- */
+/* --- 2. Base Reset & Safety Guard --- */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    max-width: 100%; /* Mencegah elemen meluber keluar layar */
+    /* Mencegah elemen meluber di Chrome Mobile */
+    max-width: 100%; 
 }
 
 html {
@@ -44,8 +45,9 @@ body {
     transition: background-color var(--transition), color var(--transition);
     width: 100%;
     overflow-x: hidden;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    /* Memaksa Chrome merender teks sehalus Firefox */
+    -webkit-font-smoothing: antialiased; 
+    padding-top: 70px; /* Ruang untuk fixed nav */
 }
 
 /* --- 3. Navigation --- */
@@ -61,10 +63,20 @@ nav {
     z-index: 1000;
     background: var(--primary);
     box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-    transition: var(--transition);
-    /* Penting agar padding tidak menambah lebar total */
+    /* Penting agar padding tidak merusak lebar 100% */
     box-sizing: border-box; 
 }
+
+.logo {
+    color: var(--white);
+    font-weight: 800;
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+    white-space: nowrap;
+    text-decoration: none;
+}
+
+.logo span { color: var(--accent); }
 
 .nav-links {
     display: flex;
@@ -78,28 +90,10 @@ nav {
     font-weight: 600;
     font-size: 0.9rem;
     transition: color var(--transition);
-}
-
-.nav-links a:hover {
-    color: var(--accent);
-}
-
-.logo {
-    color: var(--white);
-    font-weight: 800;
-    font-size: 1.5rem;
-    letter-spacing: 1px;
     white-space: nowrap;
 }
 
-.logo span {
-    color: var(--accent);
-}
-
-/* Memberi ruang agar Hero tidak tertutup Nav Fixed */
-body {
-    padding-top: 70px; 
-}
+.nav-links a:hover { color: var(--accent); }
 
 /* --- 4. Hero Section --- */
 .hero {
@@ -119,7 +113,6 @@ body {
 
 .hero-content { 
     max-width: 850px; 
-    margin: 0 auto;
     width: 100%;
 }
 
@@ -148,11 +141,13 @@ h1 {
     width: 100%;
 }
 
-/* --- 5. Sections & Grids --- */
+/* --- 5. Sections & Grid --- */
 section { 
     scroll-margin-top: 100px; 
     padding: 100px 10%; 
 }
+
+.bg-light { background-color: var(--bg-sec); }
 
 .grid {
     display: grid;
@@ -182,7 +177,6 @@ section {
 }
 
 .gallery-item {
-    width: 100%;
     aspect-ratio: 4 / 3;
     overflow: hidden;
     border-radius: 12px;
@@ -215,7 +209,6 @@ input, textarea {
     margin-bottom: 15px;
     border-radius: 8px;
     border: 1px solid transparent;
-    font-family: inherit;
 }
 
 .btn-main {
@@ -224,7 +217,6 @@ input, textarea {
     border: none;
     padding: 18px 40px;
     font-weight: bold;
-    font-size: 1rem;
     cursor: pointer;
     width: 100%;
     border-radius: 8px;
@@ -251,40 +243,38 @@ input, textarea {
     color: var(--white);
     cursor: pointer;
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
-/* --- 9. Responsive Mobile (Optimized Fix) --- */
+/* --- 9. Responsive Mobile (CHROME FIX) --- */
 @media (max-width: 768px) {
     body { padding-top: 0; }
 
     nav {
-        /* Mengubah ke kolom agar menu tidak meluber ke samping */
+        /* Mengubah ke kolom agar tidak meluber horizontal */
         flex-direction: column;
-        padding: 12px 5%;
-        position: sticky; /* Sticky lebih ramah untuk mobile nav dua baris */
+        padding: 15px 5%;
+        position: sticky; /* Sticky lebih stabil untuk nav 2 baris di mobile */
         height: auto;
     }
 
     .nav-links {
-        margin-top: 10px;
-        gap: 12px;
-        flex-wrap: wrap; /* Menurunkan menu jika layar sangat sempit */
+        margin-top: 12px;
+        gap: 10px;
+        /* Membolehkan menu turun baris jika layar sempit */
+        flex-wrap: wrap; 
         justify-content: center;
         width: 100%;
     }
 
     .nav-links a {
-        font-size: 0.75rem;
+        font-size: 0.8rem;
         font-weight: 700;
-        text-transform: uppercase;
+        padding: 5px;
     }
 
-    .logo { font-size: 1.2rem; }
+    .logo { font-size: 1.3rem; }
 
-    h1 { font-size: 2.2rem; margin-top: 15px; }
+    h1 { font-size: 2.2rem; }
 
     .hero {
         min-height: 80vh;
@@ -298,6 +288,10 @@ input, textarea {
     }
 
     section { padding: 60px 5%; }
+
+    .gallery-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* --- 10. Footer --- */
@@ -305,7 +299,6 @@ footer {
     text-align: center;
     padding: 60px 8%;
     background-color: var(--bg-sec);
-    border-top: 1px solid rgba(0,0,0,0.05);
     color: var(--text-main);
     display: flex;
     flex-direction: column;
