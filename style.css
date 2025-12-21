@@ -22,13 +22,11 @@
     --card-bg: #1e1e1e;
 }
 
-/* --- 2. Base Reset & Safety Guard --- */
+/* --- 2. Base Reset & Anti-Overflow --- */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    /* Mencegah elemen meluber di Chrome Mobile */
-    max-width: 100%; 
 }
 
 html {
@@ -45,26 +43,23 @@ body {
     transition: background-color var(--transition), color var(--transition);
     width: 100%;
     overflow-x: hidden;
-    /* Memaksa Chrome merender teks sehalus Firefox */
-    -webkit-font-smoothing: antialiased; 
-    padding-top: 70px; /* Ruang untuk fixed nav */
+    -webkit-font-smoothing: antialiased;
 }
 
-/* --- 3. Navigation --- */
+/* --- 3. Navigation (Sticky & Fixed Fix) --- */
 nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 15px 8%;
-    position: fixed; 
+    /* Menggunakan sticky agar lebih bersahabat dengan layout di Chrome */
+    position: sticky; 
     top: 0;
-    left: 0;
     width: 100%;
     z-index: 1000;
     background: var(--primary);
     box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-    /* Penting agar padding tidak merusak lebar 100% */
-    box-sizing: border-box; 
+    transition: var(--transition);
 }
 
 .logo {
@@ -72,8 +67,8 @@ nav {
     font-weight: 800;
     font-size: 1.5rem;
     letter-spacing: 1px;
-    white-space: nowrap;
     text-decoration: none;
+    white-space: nowrap;
 }
 
 .logo span { color: var(--accent); }
@@ -141,9 +136,12 @@ h1 {
     width: 100%;
 }
 
+.stat-item h3 { font-size: 2.5rem; color: var(--accent); }
+.stat-item p { font-size: 0.9rem; text-transform: uppercase; }
+
 /* --- 5. Sections & Grid --- */
 section { 
-    scroll-margin-top: 100px; 
+    scroll-margin-top: 80px; 
     padding: 100px 10%; 
 }
 
@@ -168,7 +166,7 @@ section {
 .card img { width: 100%; height: 250px; object-fit: cover; }
 .card-content { padding: 25px; }
 
-/* --- 6. Gallery --- */
+/* --- 6. Gallery Section --- */
 .gallery-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -200,7 +198,7 @@ section {
     padding: 50px;
     border-radius: 20px;
     max-width: 800px;
-    margin: 0 auto;
+    margin: 40px auto 0 auto;
 }
 
 input, textarea {
@@ -209,6 +207,7 @@ input, textarea {
     margin-bottom: 15px;
     border-radius: 8px;
     border: 1px solid transparent;
+    font-family: inherit;
 }
 
 .btn-main {
@@ -217,11 +216,14 @@ input, textarea {
     border: none;
     padding: 18px 40px;
     font-weight: bold;
+    font-size: 1rem;
     cursor: pointer;
     width: 100%;
     border-radius: 8px;
     transition: var(--transition);
 }
+
+.btn-main:hover { background-color: #b08d65; transform: translateY(-2px); }
 
 /* --- 8. Floating Controls --- */
 .floating-controls {
@@ -243,32 +245,31 @@ input, textarea {
     color: var(--white);
     cursor: pointer;
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: var(--transition);
 }
 
-/* --- 9. Responsive Mobile (CHROME FIX) --- */
+/* --- 9. Responsive Mobile (Full Chrome Fix) --- */
 @media (max-width: 768px) {
-    body { padding-top: 0; }
-
     nav {
-        /* Mengubah ke kolom agar tidak meluber horizontal */
-        flex-direction: column;
+        flex-direction: column; /* Logo atas, Menu bawah */
         padding: 15px 5%;
-        position: sticky; /* Sticky lebih stabil untuk nav 2 baris di mobile */
-        height: auto;
+        position: sticky;
+        top: 0;
     }
 
     .nav-links {
         margin-top: 12px;
         gap: 10px;
-        /* Membolehkan menu turun baris jika layar sempit */
-        flex-wrap: wrap; 
+        flex-wrap: wrap; /* Menu turun jika tidak muat */
         justify-content: center;
         width: 100%;
     }
 
     .nav-links a {
         font-size: 0.8rem;
-        font-weight: 700;
         padding: 5px;
     }
 
@@ -277,21 +278,20 @@ input, textarea {
     h1 { font-size: 2.2rem; }
 
     .hero {
+        height: auto;
         min-height: 80vh;
-        padding: 40px 5%;
+        padding: 60px 5%;
     }
 
     .stats-container {
         flex-direction: column;
-        gap: 20px;
+        gap: 25px;
         align-items: center;
     }
 
     section { padding: 60px 5%; }
-
-    .gallery-grid {
-        grid-template-columns: 1fr;
-    }
+    
+    .grid { grid-template-columns: 1fr; }
 }
 
 /* --- 10. Footer --- */
@@ -299,11 +299,11 @@ footer {
     text-align: center;
     padding: 60px 8%;
     background-color: var(--bg-sec);
+    border-top: 1px solid rgba(0,0,0,0.05);
     color: var(--text-main);
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
 }
 
 footer p { margin: 0; opacity: 0.7; font-size: 0.9rem; }
